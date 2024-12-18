@@ -1,4 +1,4 @@
-import type { Context } from "@hono/hono";
+import type { Context } from "hono";
 
 /**
  * Global error handler for Hono applications.
