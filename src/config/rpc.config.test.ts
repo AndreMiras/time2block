@@ -12,7 +12,7 @@ describe("RPC Config", () => {
       osmosis: "https://rpc.osmosis.zone",
     };
 
-    beforeEach(() => testUtils.clearEnv());
+    beforeEach(() => testUtils.loadTestEnv());
 
     afterEach(() => testUtils.restoreEnv(originalEnv));
 

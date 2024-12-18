@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, it } from "jsr:@std/testing/bdd";
 import sinon from "sinon";
 import blockService from "../../services/block.service.ts";
 import * as testUtils from "../../utils/test-utils.ts";
-import app from "./block.route.ts";
+import app from "../../app.ts";
 
 describe("Block Router", () => {
   describe("GET /v1/:chain/timestamp/:timestamp", () => {
@@ -15,9 +15,10 @@ describe("Block Router", () => {
     const chain = "cosmos";
     const timestamp = 1765432100;
     const blockNumber = 123456;
-    const url = `/${chain}/timestamp/${timestamp}`;
+    const urlPrefix = "/v1";
+    const url = `${urlPrefix}/${chain}/timestamp/${timestamp}`;
 
-    beforeEach(() => testUtils.clearEnv());
+    beforeEach(() => testUtils.loadTestEnv());
 
     afterEach(() => {
       testUtils.restoreEnv(originalEnv);
@@ -44,8 +45,10 @@ describe("Block Router", () => {
     it("should return an error for an unsupported chain", async () => {
       const response = await app.request(url);
       assertEquals(response.status, 500);
-      const responseText = await response.text();
-      assertEquals(responseText, "Internal Server Error");
+      const responseJson = await response.json();
+      assertObjectMatch(responseJson, {
+        "error": "Unsupported chain: 'cosmos'. Supported chains are: ",
+      });
     });
   });
 });
