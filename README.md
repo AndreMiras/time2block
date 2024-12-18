@@ -1,5 +1,7 @@
 # Time to Block
 
+[![Tests](https://github.com/AndreMiras/time2block/actions/workflows/tests.yml/badge.svg)](https://github.com/AndreMiras/time2block/actions/workflows/tests.yml)
+
 Retrive the block number from a given timestamp.
 
 ## Run
