@@ -40,4 +40,16 @@ describe("Documentation Route", () => {
       assertStringIncludes(responseText, "<title>SwaggerUI</title>");
     });
   });
+
+  describe("GET /redoc", () => {
+    it("should return the Redoc HTML page", async () => {
+      const response = await app.request("/redoc");
+      const responseText = await response.text();
+      assertEquals(response.status, 200);
+      assertStringIncludes(
+        responseText,
+        "<title>Redoc - Time to Block API</title>",
+      );
+    });
+  });
 });

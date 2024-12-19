@@ -5,6 +5,10 @@
     "test": "deno test --allow-all",
     "test:debug": "deno test --inspect --allow-all"
   },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
   "imports": {
     "@cosmjs/tendermint-rpc": "npm:@cosmjs/tendermint-rpc@^0.32.4",
     "@hono/swagger-ui": "npm:@hono/swagger-ui@^0.5.0",

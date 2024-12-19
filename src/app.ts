@@ -4,7 +4,7 @@ import {
   OPENAPI_METADATA,
   OPENAPI_SPEC_PATH,
 } from "./config/openapi.config.ts";
-import docRoute from "./routes/documentation.route.ts";
+import docRoute from "./routes/documentation.route.tsx";
 import blockRouteV1 from "./routes/v1/block.route.ts";
 import chainRouteV1 from "./routes/v1/chain.route.ts";
 
