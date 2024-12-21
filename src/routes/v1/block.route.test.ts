@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, it } from "jsr:@std/testing/bdd";
 import sinon from "sinon";
 import blockService from "../../services/block.service.ts";
 import * as testUtils from "../../utils/test-utils.ts";
-import app from "../../app.ts";
 
 describe("Block Router", () => {
   describe("GET /v1/:chain/timestamp/:timestamp", () => {
@@ -27,6 +26,7 @@ describe("Block Router", () => {
 
     it("should return the block number for a valid chain and timestamp", async () => {
       Deno.env.set("CHAINS", JSON.stringify(chains));
+      const app = (await import("../../app.ts")).default;
       const getBlockByTimestampStub = sinon.stub(
         blockService,
         "getBlockByTimestamp",
@@ -43,6 +43,7 @@ describe("Block Router", () => {
     });
 
     it("should return an error for an unsupported chain", async () => {
+      const app = (await import("../../app.ts")).default;
       const response = await app.request(url);
       assertEquals(response.status, 500);
       const responseJson = await response.json();
