@@ -13,14 +13,15 @@ export const BlockParamsSchema = z.object({
     enum: supportedChains,
     example: "cosmos",
   }),
-  timestamp: z.string().openapi({
-    param: {
-      name: "timestamp",
-      in: "path",
-    },
-    description: "The Unix timestamp to find the closest block.",
-    example: "1716578490",
-  }),
+  timestamp: z.string().regex(/^\d+$/, "Must be a valid Unix timestamp")
+    .transform((val) => Number(val)).openapi({
+      param: {
+        name: "timestamp",
+        in: "path",
+      },
+      description: "The Unix timestamp to find the closest block.",
+      example: "1716578490",
+    }),
 });
 
 export type BlockParams = z.infer<typeof BlockParamsSchema>;

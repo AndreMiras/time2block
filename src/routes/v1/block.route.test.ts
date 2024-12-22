@@ -51,5 +51,30 @@ describe("Block Router", () => {
         "error": "Unsupported chain: 'cosmos'. Supported chains are: ",
       });
     });
+
+    it("should return an error on invalid timestamp", async () => {
+      Deno.env.set("CHAINS", JSON.stringify(chains));
+      const app = (await import("../../app.ts")).default;
+      const timestamp = "invalid";
+      const url = `${urlPrefix}/${chain}/timestamp/${timestamp}`;
+      const response = await app.request(url);
+      assertEquals(response.status, 400);
+      const responseJson = await response.json();
+      assertObjectMatch(responseJson, {
+        error: {
+          issues: [
+            {
+              code: "invalid_string",
+              message: "Must be a valid Unix timestamp",
+              path: [
+                "timestamp",
+              ],
+              validation: "regex",
+            },
+          ],
+          name: "ZodError",
+        },
+      });
+    });
   });
 });
