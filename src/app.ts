@@ -1,7 +1,7 @@
 import { OpenAPIHono as Hono } from "@hono/zod-openapi";
 import { setupMiddleware } from "./middleware/index.ts";
 import {
-  OPENAPI_METADATA,
+  getOpenAPIMetadata,
   OPENAPI_SPEC_PATH,
 } from "./config/openapi.config.ts";
 import indexRoute from "./routes/index.route.tsx";
@@ -13,7 +13,8 @@ const app = new Hono();
 
 setupMiddleware(app);
 
-app.doc(OPENAPI_SPEC_PATH, OPENAPI_METADATA);
+const version = Deno.env.get("VERSION") || "1.0.0";
+app.doc(OPENAPI_SPEC_PATH, getOpenAPIMetadata(version));
 
 app.route("/", indexRoute);
 app.route("/", docRoute);

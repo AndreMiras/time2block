@@ -9,10 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/time2block:latest
       TARGET_BRANCH: refs/heads/main
     steps:
       - uses: actions/checkout@v4
+      - run: echo "VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
+        id: version
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
         if: ${{ github.event_name == 'push' && github.ref == env.TARGET_BRANCH }}
@@ -22,4 +23,8 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name == 'push' && github.ref == env.TARGET_BRANCH }}
-          tags: ${{ env.IMAGE_NAME }}
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/time2block:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/time2block:${{ env.VERSION }}
+          build-args: |
+            VERSION=${{ env.VERSION }}

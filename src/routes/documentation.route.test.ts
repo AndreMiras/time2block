@@ -5,8 +5,6 @@ import {
 } from "jsr:@std/assert";
 import { afterEach, beforeEach, describe, it } from "jsr:@std/testing/bdd";
 import * as testUtils from "../utils/test-utils.ts";
-import app from "../app.ts";
-import { OPENAPI_METADATA } from "../config/openapi.config.ts";
 
 describe("Documentation Route", () => {
   const originalEnv = testUtils.snapshotEnv();
@@ -17,11 +15,19 @@ describe("Documentation Route", () => {
 
   describe("GET /openapi.json", () => {
     it("should return the OpenAPI JSON specification", async () => {
+      const version = "1.2.3";
+      Deno.env.set("VERSION", version);
+      const app = (await import("../app.ts")).default;
+      const { getOpenAPIMetadata } = await import(
+        "../config/openapi.config.ts"
+      );
+      const openAPIMetadata = getOpenAPIMetadata(version);
       const response = await app.request("/openapi.json");
       const responseJson = await response.json();
       assertEquals(response.status, 200);
-      assertEquals(responseJson.openapi, OPENAPI_METADATA.openapi);
-      assertObjectMatch(responseJson.info, OPENAPI_METADATA.info);
+      assertEquals(responseJson.openapi, openAPIMetadata.openapi);
+      assertObjectMatch(responseJson.info, openAPIMetadata.info);
+      assertEquals(responseJson.info.version, version);
       const expectedPaths = [
         "/v1/supported-chains",
         "/v1/{chain}/timestamp/{timestamp}",
@@ -33,6 +39,7 @@ describe("Documentation Route", () => {
 
   describe("GET /swagger", () => {
     it("should return the Swagger UI HTML page", async () => {
+      const app = (await import("../app.ts")).default;
       const response = await app.request("/swagger");
       const responseText = await response.text();
       assertEquals(response.status, 200);
@@ -43,6 +50,7 @@ describe("Documentation Route", () => {
 
   describe("GET /redoc", () => {
     it("should return the Redoc HTML page", async () => {
+      const app = (await import("../app.ts")).default;
       const response = await app.request("/redoc");
       const responseText = await response.text();
       assertEquals(response.status, 200);
