@@ -12,6 +12,9 @@ jobs:
       TARGET_BRANCH: refs/heads/main
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          tags: true
       - run: echo "VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
         id: version
       - uses: docker/setup-buildx-action@v3

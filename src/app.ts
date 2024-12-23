@@ -14,6 +14,7 @@ const app = new Hono();
 setupMiddleware(app);
 
 const version = Deno.env.get("VERSION") || "1.0.0";
+console.log({version});
 app.doc(OPENAPI_SPEC_PATH, getOpenAPIMetadata(version));
 
 app.route("/", indexRoute);
