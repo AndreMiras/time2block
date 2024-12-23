@@ -9,17 +9,16 @@ import docRoute from "./routes/documentation.route.tsx";
 import blockRouteV1 from "./routes/v1/block.route.ts";
 import chainRouteV1 from "./routes/v1/chain.route.ts";
 
-const app = new Hono();
+export const createApp = (version = "1.0.0"): Hono => {
+  const app = new Hono();
 
-setupMiddleware(app);
+  setupMiddleware(app);
 
-const version = Deno.env.get("VERSION") || "1.0.0";
-console.log({version});
-app.doc(OPENAPI_SPEC_PATH, getOpenAPIMetadata(version));
+  app.doc(OPENAPI_SPEC_PATH, getOpenAPIMetadata(version));
+  app.route("/", indexRoute);
+  app.route("/", docRoute);
+  app.route("/v1", chainRouteV1);
+  app.route("/v1", blockRouteV1);
 
-app.route("/", indexRoute);
-app.route("/", docRoute);
-app.route("/v1", chainRouteV1);
-app.route("/v1", blockRouteV1);
-
-export default app;
+  return app;
+};

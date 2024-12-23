@@ -26,7 +26,8 @@ describe("Block Router", () => {
 
     it("should return the block number for a valid chain and timestamp", async () => {
       Deno.env.set("CHAINS", JSON.stringify(chains));
-      const app = (await import("../../app.ts")).default;
+      const { createApp } = await import("../../app.ts");
+      const app = createApp();
       const getBlockByTimestampStub = sinon.stub(
         blockService,
         "getBlockByTimestamp",
@@ -43,18 +44,20 @@ describe("Block Router", () => {
     });
 
     it("should return an error for an unsupported chain", async () => {
-      const app = (await import("../../app.ts")).default;
+      const { createApp } = await import("../../app.ts");
+      const app = createApp();
       const response = await app.request(url);
       assertEquals(response.status, 500);
       const responseJson = await response.json();
       assertObjectMatch(responseJson, {
-        "error": "Unsupported chain: 'cosmos'. Supported chains are: ",
+        error: "Unsupported chain: 'cosmos'. Supported chains are: ",
       });
     });
 
     it("should return an error on invalid timestamp", async () => {
       Deno.env.set("CHAINS", JSON.stringify(chains));
-      const app = (await import("../../app.ts")).default;
+      const { createApp } = await import("../../app.ts");
+      const app = createApp();
       const timestamp = "invalid";
       const url = `${urlPrefix}/${chain}/timestamp/${timestamp}`;
       const response = await app.request(url);

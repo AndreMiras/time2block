@@ -3,21 +3,15 @@ import {
   assertObjectMatch,
   assertStringIncludes,
 } from "jsr:@std/assert";
-import { afterEach, beforeEach, describe, it } from "jsr:@std/testing/bdd";
-import * as testUtils from "../utils/test-utils.ts";
+import { describe, it } from "jsr:@std/testing/bdd";
+import { createApp } from "../app.ts";
 
 describe("Documentation Route", () => {
-  const originalEnv = testUtils.snapshotEnv();
-
-  beforeEach(() => testUtils.loadTestEnv());
-
-  afterEach(() => testUtils.restoreEnv(originalEnv));
+  const version = "1.2.3";
+  const app = createApp(version);
 
   describe("GET /openapi.json", () => {
     it("should return the OpenAPI JSON specification", async () => {
-      const version = "1.2.3";
-      Deno.env.set("VERSION", version);
-      const app = (await import("../app.ts")).default;
       const { getOpenAPIMetadata } = await import(
         "../config/openapi.config.ts"
       );
@@ -39,7 +33,6 @@ describe("Documentation Route", () => {
 
   describe("GET /swagger", () => {
     it("should return the Swagger UI HTML page", async () => {
-      const app = (await import("../app.ts")).default;
       const response = await app.request("/swagger");
       const responseText = await response.text();
       assertEquals(response.status, 200);
@@ -50,7 +43,6 @@ describe("Documentation Route", () => {
 
   describe("GET /redoc", () => {
     it("should return the Redoc HTML page", async () => {
-      const app = (await import("../app.ts")).default;
       const response = await app.request("/redoc");
       const responseText = await response.text();
       assertEquals(response.status, 200);

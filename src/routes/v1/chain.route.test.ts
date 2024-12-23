@@ -1,7 +1,7 @@
 import { assertEquals, assertObjectMatch } from "jsr:@std/assert";
 import { afterEach, beforeEach, describe, it } from "jsr:@std/testing/bdd";
 import * as testUtils from "../../utils/test-utils.ts";
-import app from "../../app.ts";
+import { createApp } from "../../app.ts";
 
 describe("Chain Router", () => {
   const originalEnv = testUtils.snapshotEnv();
@@ -13,6 +13,8 @@ describe("Chain Router", () => {
   beforeEach(() => testUtils.loadTestEnv());
 
   afterEach(() => testUtils.restoreEnv(originalEnv));
+
+  const app = createApp();
 
   describe("GET /v1/supported-chains", () => {
     const urlPrefix = "/v1";

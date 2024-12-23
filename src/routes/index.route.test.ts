@@ -1,8 +1,9 @@
 import { assertEquals, assertStringIncludes } from "jsr:@std/assert";
 import { describe, it } from "jsr:@std/testing/bdd";
-import app from "../app.ts";
+import { createApp } from "../app.ts";
 
 describe("Index Route", () => {
+  const app = createApp();
   describe("GET /", () => {
     it("should return the landing page with title", async () => {
       const response = await app.request("/");
