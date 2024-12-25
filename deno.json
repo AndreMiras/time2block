@@ -3,8 +3,10 @@
     "run:prod": "deno run --allow-env --allow-net --allow-read src/main.ts",
     "run:dev": "deno run --allow-all --watch src/main.ts",
     "run:debug": "deno run --inspect --allow-all src/main.ts",
-    "test": "deno test --allow-all",
-    "test:debug": "deno test --inspect --allow-all"
+    "test": "deno test --coverage --allow-all",
+    "test:debug": "deno test --inspect --allow-all",
+    "test:coverage": "deno task test && deno coverage coverage",
+    "test:coverage:html": "deno task test:coverage --html"
   },
   "compilerOptions": {
     "jsx": "precompile",
