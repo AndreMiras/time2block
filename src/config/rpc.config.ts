@@ -34,3 +34,9 @@ export const getRpcEndpoint = (chain: string): string => {
  */
 export const getSupportedChains = (): string[] =>
   Object.keys(getRpcEndpoints());
+
+const defaultExports = {
+  getRpcEndpoint,
+};
+
+export default defaultExports;

@@ -1,5 +1,5 @@
 import { BlockResponse, Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import * as rpcConfig from "../config/rpc.config.ts";
+import rpcConfig from "../config/rpc.config.ts";
 
 /**
  * Retrieves the block height closest to a given timestamp using binary search.
