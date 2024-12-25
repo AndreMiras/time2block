@@ -6,7 +6,8 @@
     "test": "deno test --coverage --allow-all",
     "test:debug": "deno test --inspect --allow-all",
     "test:coverage": "deno task test && deno coverage coverage",
-    "test:coverage:html": "deno task test:coverage --html"
+    "test:coverage:html": "deno task test:coverage --html",
+    "test:coverage:lcov": "deno task test:coverage --lcov --output=coverage/coverage.lcov"
   },
   "compilerOptions": {
     "jsx": "precompile",

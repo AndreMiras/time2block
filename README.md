@@ -1,6 +1,7 @@
 # Time to Block
 
 [![Tests](https://github.com/AndreMiras/time2block/actions/workflows/tests.yml/badge.svg)](https://github.com/AndreMiras/time2block/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/AndreMiras/time2block/graph/badge.svg?token=AAEMSIYUYU)](https://codecov.io/gh/AndreMiras/time2block)
 [![Docker](https://github.com/AndreMiras/time2block/actions/workflows/docker.yml/badge.svg)](https://github.com/AndreMiras/time2block/actions/workflows/docker.yml)
 
 Retrive the block number from a given timestamp.

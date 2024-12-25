@@ -18,4 +18,11 @@ jobs:
       - run: deno check src/
       # make sure the deno.lock doesn't get changed silently
       - run: deno install --frozen=true
-      - run: deno task test
+      - run: deno task test:coverage:lcov
+      - uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/coverage.lcov
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
